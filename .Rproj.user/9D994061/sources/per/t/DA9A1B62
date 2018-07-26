@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1532300309605.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "445422871",
+    "id" : "DA9A1B62",
+    "lastKnownWriteTime" : 1532277413,
+    "last_content_update" : 1532277413,
+    "path" : "~/Proj/EOBArch/EOB_Forge.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

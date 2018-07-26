@@ -1,0 +1,79 @@
+#July 19th, 2018
+#check the EOB source
+
+#read the product table 
+prod <- read.table("EOBZIP_2018_06/products.txt", header = T, sep = "~", quote = "", comment.char = "")
+
+#> dim(prod)
+#[1] 35411    14
+#> length(unique(prod$Ingredient))
+#[1] 2463
+##~~
+##The product table features 2,463 unique ingredients
+
+prod2 <- read.table("drugsatfda/Products.txt", header = T, sep = "\t", quote = "", comment.char = "")
+
+#> dim(prod2)
+#[1] 37111     8
+#> length(unique(prod2$ActiveIngredient))
+#[1] 2695
+#> length(intersect(unique(prod$Ingredient), unique(prod2$ActiveIngredient)))
+#[1] 2446
+
+
+##there are 2,446 ingredients in common between the two EOB data sources.  
+##However, there are 17 ingredients found only in the EOBZIP file.
+##and 249 only present in the drugsatfda file
+#> setdiff(unique(prod$Ingredient), unique(prod2$ActiveIngredient))
+#[1] "ENCORAFENIB"                                                                                    
+#[2] "FINGOLIMOD HYDROCHLORIDE"                                                                       
+#[3] "NILOTINIB HYDROCHLORIDE"                                                                        
+#[4] "GLYCOPYRRONIUM TOSYLATE"                                                                        
+#[5] "BETAINE"                                                                                        
+#[6] "SODIUM ZIRCONIUM CYCLOSILICATE"                                                                 
+#[7] "AMINO ACIDS; MAGNESIUM CHLORIDE; POTASSIUM CHLORIDE; SODIUM CHLORIDE; SODIUM PHOSPHATE, DIBASIC"
+#[8] "GLUCAGON"                                                                                       
+#[9] "FOSNETUPITANT CHLORIDE HYDROCHLORIDE; PALONOSETRON HYDROCHLORIDE"                               
+#[10] "PLAZOMICIN SULFATE"                                                                             
+#[11] "AMLODIPINE BESYLATE; CELECOXIB"                                                                 
+#[12] "AVATROMBOPAG MALEATE"                                                                           
+#[13] "LOFEXIDINE HYDROCHLORIDE"                                                                       
+#[14] "BINIMETINIB"                                                                                    
+#[15] "MOXIDECTIN"                                                                                     
+#[16] "BARICITINIB"                                                                                    
+#[17] "FOSTAMATINIB DISODIUM"
+
+
+##head(setdiff(unique(prod2$ActiveIngredient), unique(prod$Ingredient)))
+#[1] "METHOXYFLURANE"                                              "ETHINYL ESTRADIOL;NORETHINDRONE; FERROUS FUMARATE"          
+#[3] "CHLORPHENIRAMINE POLISTIREX; PHENYLPROPANOLAMINE POLISTIREX" "ETHINYL ESTRADIOL; LEVONORGESTREL; FERROUS FUMARATE"        
+#[5] "SOMATROPIN [rDNA origin]"                                    "BETAINE HYDROCHLORIDE"          
+
+#July 22nd, 2018
+#2nd check on concordance of the 2 data sets;
+#the Orange Book Data Files (compressed)  (ZIP - 708KB)
+#
+#read the product table 
+prod <- read.table("EOBZIP_2018_06/products.txt", header = T, sep = "~", quote = "", comment.char = "")
+#> dim(prod)
+#[1] 35411    14
+#> length(unique(prod$Ingredient))
+#[1] 2463
+##~~
+##The product table features 2,463 unique ingredients
+##~~confirmed
+
+#####~~~~~
+#the Drugs@FDA
+prod2 <- read.table("drugsatfda/Products.txt", header = T, sep = "\t", quote = "", comment.char = "")
+#> dim(prod2)
+#[1] 37436     8
+#> length(unique(prod2$ActiveIngredient))
+#[1] 2709
+#> length(intersect(unique(prod$Ingredient), unique(prod2$ActiveIngredient)))
+#[1] 2463
+
+
+
+##Conclusion: the Drugs@FDA has been updated.
+#the prod table from the Orange Book Data Files (compressed)  (ZIP - 708KB) is a proper subset of the prod2 table from the Drugs@FDA
