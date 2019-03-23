@@ -1,8 +1,14 @@
+<<<<<<< HEAD
 ################################################################################
 # Active Pharmaceutical Ingredients data retrieval                             #
 # Authoritative source of data related to therapeutically active molecules     #
 # The source URL is https://www.fda.gov/Drugs/InformationOnDrugs/              #
 ################################################################################
+=======
+# March 20, 2019
+# Exploring one source of data related to therapeutically active molecules
+# The source URL is https://www.fda.gov/Drugs/InformationOnDrugs/
+>>>>>>> d06b27196c7ad1b912d7843a196170c6a7c22a3b
 
 # resource location.
 url.basename <- "https://www.fda.gov/downloads/Drugs/InformationOnDrugs/"
@@ -12,7 +18,12 @@ url.basename <- "https://www.fda.gov/downloads/Drugs/InformationOnDrugs/"
 if(!file.exists("LocalEOB"))  {  
   dir.create("LocalEOB")  
 } 
+<<<<<<< HEAD
 # the Orange Book archive name 
+=======
+
+# the “Additional Resources” section, a link referred to as “Orange Book Data Files (compressed) 
+>>>>>>> d06b27196c7ad1b912d7843a196170c6a7c22a3b
 eob_archive1 <- "UCM163762.zip"
 # loading the archive
 download.file(paste(url.basename, eob_archive1, sep = ""), 
