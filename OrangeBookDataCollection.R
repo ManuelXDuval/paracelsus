@@ -1,21 +1,29 @@
-#July 25th, 2018
-#Acton, MA 01720
-#Exploring one source of data related to therapeutically active molecules
-#The source URL is https://www.fda.gov/Drugs/InformationOnDrugs/
+################################################################################
+# Active Pharmaceutical Ingredients data retrieval                             #
+# Authoritative source of data related to therapeutically active molecules     #
+# The source URL is https://www.fda.gov/Drugs/InformationOnDrugs/              #
+################################################################################
 
+# resource location.
 url.basename <- "https://www.fda.gov/downloads/Drugs/InformationOnDrugs/"
 
+# setting a new subdirectory on the local file system where to load the Orange  
+# Book data files locally.
 if(!file.exists("LocalEOB"))  {  
   dir.create("LocalEOB")  
 } 
-
-#he “Additional Resources” section, a link referred to as “Orange Book Data Files (compressed) 
+# the Orange Book archive name 
 eob_archive1 <- "UCM163762.zip"
-download.file(paste(url.basename, eob_archive1, sep = ""), destfile = paste("LocalEOB", "/", eob_archive1, sep = ""))  
+# loading the archive
+download.file(paste(url.basename, eob_archive1, sep = ""), 
+              destfile = paste("LocalEOB", "/", eob_archive1, sep = ""))  
+# extract data files
+unzip("LocalEOB/UCM163762.zip", exdir = "LocalEOB/")
 
-# the Drugs@FDA Data Files 
-eob_archive2 <- "UCM527389.zip"
-download.file(paste(url.basename, eob_archive1, sep = ""), destfile = paste("LocalEOB", "/", eob_archive2, sep = ""))  
+
+################################################################################
+
+
 
 
 
