@@ -1,4 +1,3 @@
-
 ################################################################################
 # Active Pharmaceutical Ingredients data retrieval                             #
 # Authoritative source of data related to therapeutically active molecules     #
@@ -18,6 +17,12 @@ download.file(paste(url.basename, eob_archive1, sep = ""),
               destfile = paste("LocalEOB", "/", eob_archive1, sep = ""))  
 # extracting data files
 unzip("LocalEOB/UCM163762.zip", exdir = "LocalEOB/")
+
+# reading the product.txt data assigning its content to the proDf dataframe
+prodDf <- read.table("LocalEOB/products.txt", header = T, sep = "~", quote = "", 
+                     comment.char = "", 
+                     colClasses = c(rep("character", 4), rep("NULL", 1), 
+                                    rep("character", 9)))
 ################################################################################
 
 
