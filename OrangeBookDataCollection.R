@@ -38,11 +38,11 @@ Ingred2 <- unique(c(Ingred1, trimws(CompIngredDf$primIng)))
 
 ##########~~~~~~~~~~##########~~~~~~~~~~##########~~~~~~~~~~##########~~~~~~~~~~
 ########~~~~U.S. NIH PubChem resource query and result set retrieval~~~~########
-# setting url string values for consuming pubchem PUG REST API
+# setting url string values for issuing queries via the PubChem PUG REST API 
 prolog <- "https://pubchem.ncbi.nlm.nih.gov/rest/pug"
 input <- "/compound/name/"
-# the DelayFunction sets for issuing successive GET requests, preventing 503 
-# Service Unavailable Error
+# the DelayFunction is set for allowing successive GET requests to the PubChem 
+# resource yet preventing 503 Service Unavailable Error
 DelayFunction <- function(SecDelay, f) {
   function(...) {
     Sys.sleep(SecDelay)
