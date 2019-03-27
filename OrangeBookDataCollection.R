@@ -41,15 +41,26 @@ Ingred2 <- unique(c(Ingred1, trimws(CompIngredDf$primIng)))
 # setting url string values for consuming pubchem PUG REST API
 prolog <- "https://pubchem.ncbi.nlm.nih.gov/rest/pug"
 input <- "/compound/name/"
-# quering PubChem Compound database with Ingredient names to get their CID
+# the DelayFunction sets for issuing successive GET requests, preventing 503 
+# Service Unavailable Error
+DelayFunction <- function(SecDelay, f) {
+  function(...) {
+    Sys.sleep(SecDelay)
+    f(...)
+  }
+}
+# function to query PubChem Compound DB with Ingredient names to get their CID
+QueryPubChem4CID <- function(x){
+  gsub("\n", ";", trimws(
+    getURL(paste0(prolog, input, gsub(" ", "%20", x),"/cids/TXT"))))
+}
+# issuing the https get requests
 paracelsusDf <- as.data.frame(
-  cbind(Ingred2 ,gsub(
-    "\n", ";", sapply(
-      1:length(Ingred2), function(i) trimws(
-        getURL(
-          paste0(prolog, input, gsub(" ", "%20", Ingred2[i]),"/cids/TXT")))))))
+  cbind(Ingred2, sapply(Ingred2, DelayFunction(.5, QueryPubChem4CID))))
 colnames(paracelsusDf) <- c("Ingredient", "CID")
-# the paracelsusDf dataframe: a 1,242 records by 2 attributes: Ingredient Name 
+# filtering out entries with no match to PubChem copound DB
+paracelsusDf <- paracelsusDf[!(grepl("NotFound;", paracelsusDf$CID)),]
+# the paracelsusDf dataframe: a 1,123 records by 2 attributes: Ingredient Name 
 # and PubChem compound CID. 
 ################################################################################
 
