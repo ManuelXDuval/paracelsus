@@ -49,7 +49,7 @@ DelayFunction <- function(SecDelay, f) {
     f(...)
   }
 }
-# function to query PubChem Compound DB with Ingredient names to get their CID
+# function to query PubChem Compound DB with Ingredient Name to get their CID
 QueryPubChem4CID <- function(x){
   gsub("\n", ";", trimws(
     getURL(paste0(prolog, input, gsub(" ", "%20", x),"/cids/TXT"))))
@@ -58,7 +58,7 @@ QueryPubChem4CID <- function(x){
 paracelsusDf <- as.data.frame(
   cbind(Ingred2, sapply(Ingred2, DelayFunction(.5, QueryPubChem4CID))))
 colnames(paracelsusDf) <- c("Ingredient", "CID")
-# filtering out entries with no match to PubChem copound DB
+# filtering out entries with no match to PubChem compound DB
 paracelsusDf <- paracelsusDf[!(grepl("NotFound;", paracelsusDf$CID)),]
 # the paracelsusDf dataframe: a 1,123 records by 2 attributes: Ingredient Name 
 # and PubChem compound CID. 
