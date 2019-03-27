@@ -3,7 +3,10 @@
 # Authoritative source of data related to therapeutically active molecules     #
 # The source URL is https://www.fda.gov/Drugs/InformationOnDrugs/              #
 ################################################################################
-library("reshape2")
+# dependencies
+sapply(c("reshape2", "RCurl"), library, character.only = TRUE)
+
+#####~~~~U.S. FDA Orange Book resource active ingredients data retrieval~~~~####
 # setting the source URL
 url.basename <- "https://www.fda.gov/downloads/Drugs/InformationOnDrugs/"
 # setting a new subdirectory on the local file system where to load the Orange  
@@ -26,11 +29,28 @@ prodDf <- read.table("LocalEOB/products.txt", header = T, sep = "~", quote = "",
                                     rep("character", 9)))
 # selecting out ANDA and Discontinued
 prodDfNDA <- prodDf[(prodDf$Appl_Type == "N" & prodDf$Type == "RX"),]
-# setting the list of ingredients
+# setting the list of ingredients. 
 Ingred1 <- unique(prodDfNDA$Ingredient[!grepl(";", prodDfNDA$Ingredient)])
 CompIngred <- unique(prodDfNDA$Ingredient[grepl(";", prodDfNDA$Ingredient)]) 
 CompIngredDf <- colsplit(CompIngred, "\\;", names = c("primIng", "SecondIng"))
 Ingred2 <- unique(c(Ingred1, trimws(CompIngredDf$primIng)))
+# the Ingred2 vector: active ingredients of the Orange Book prescription drugs
+
+##########~~~~~~~~~~##########~~~~~~~~~~##########~~~~~~~~~~##########~~~~~~~~~~
+########~~~~U.S. NIH PubChem resource query and result set retrieval~~~~########
+# setting url string values for consuming pubchem PUG REST API
+prolog <- "https://pubchem.ncbi.nlm.nih.gov/rest/pug"
+input <- "/compound/name/"
+# quering PubChem Compound database with Ingredient names to get their CID
+paracelsusDf <- as.data.frame(
+  cbind(Ingred2 ,gsub(
+    "\n", ";", sapply(
+      1:length(Ingred2), function(i) trimws(
+        getURL(
+          paste0(prolog, input, gsub(" ", "%20", Ingred2[i]),"/cids/TXT")))))))
+colnames(paracelsusDf) <- c("Ingredient", "CID")
+# the paracelsusDf dataframe: a 1,242 records by 2 attributes: Ingredient Name 
+# and PubChem compound CID. 
 ################################################################################
 
 
