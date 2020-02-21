@@ -64,9 +64,21 @@ paracelsusDf <- paracelsusDf[!(grepl("NotFound;", paracelsusDf$CID)),]
 # and PubChem compound CID. 
 ################################################################################
 
+########~~~~U.S. NIH NLM Medical Subject Heading MeSH resource query and result set retrieval~~~~########
+# setting url string values for issuing queries to the MeSH API
+host <- "id.nlm.nih.gov/mesh"
+endpoint <- "/lookup/descriptor"
+# mapping OrangeBook Ingredient name to MeSH Unique ID
+meshSet.df <- do.call("rbind", lapply(
+  1:dim(paracelsusDf)[1], function(i) as.data.frame(
+    content(GET(paste0(host,endpoint,"?label=", paracelsusDf$Ingredient[i]))))
+  ))
+# setting dataframe column string values
+meshSet.df$MeSH_UniqueID <- gsub("http.*./", "", meshSet.df$resource)
+meshSet.df$label <- toupper(meshSet.df$label)
+# creating the 3 attributes dataframe object
+paracelsusDf.mesh <- merge(paracelsusDf, meshSet.df[,c(2,3)], by.x = "Ingredient", by.y = "label")
 
-
-
-
+###################################################################################
 
 
