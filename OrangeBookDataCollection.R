@@ -4,7 +4,7 @@
 # The source URL is https://www.fda.gov/Drugs/InformationOnDrugs/             #
 ###############################################################################
 # dependencies
-sapply(c("httr", "reshape2", "tidyr", "RCurl", "SPARQL"), library, 
+sapply(c("httr", "reshape2", "stringr", "tidyr", "RCurl", "SPARQL"), library, 
        character.only = TRUE)
 
 #####~~~~U.S. FDA Orange Book resource active ingredients data retrieval~~~~###
@@ -68,8 +68,6 @@ paracelsusDf <- paracelsusDf[!(grepl("NotFound;", paracelsusDf$CID)),]
 ########~~~~curating the list of ingredients~~~################################
 # filtering out water
 paracelsusDf <- paracelsusDf[(paracelsusDf$CID != 962),]
-
-
 
 
 ##~~NIH NLM Medical Subject Heading resource query and result set retrieval~~##
