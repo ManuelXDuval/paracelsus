@@ -4,7 +4,6 @@ language: r
 sudo: false
 warnings_are_errors: false
 
-
 matrix:
   include:
   - r: devel
@@ -20,7 +19,11 @@ r_packages:
 
 env:
   global:
+   - _R_CHECK_FORCE_SUGGESTS_=false
   - MAKEFLAGS="-j 2"
+  - TRAVIS_CXXFLAGS="-Wall -Wextra -pedantic -Werror"
+  - R_REMOTES_NO_ERRORS_FROM_WARNINGS=true
+  - _R_CHECK_SYSTEM_CLOCK_=FALSE
 
 before_install:
   - cd pkg/paracelsus
