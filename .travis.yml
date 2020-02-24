@@ -1,0 +1,28 @@
+# .travis.yml
+
+language: r
+sudo: false
+warnings_are_errors: false
+cache: packages
+
+
+matrix:
+  include:
+  - r: devel
+  - r: release
+
+r_packages: 
+  - httr
+  - reshape2
+  - stringr
+  - tidyr
+  - RCurl
+  - SPARLQL
+
+env:
+  global:
+  - MAKEFLAGS="-j 2"
+
+before_install:
+  - cd pkg/paracelsus
+ 
