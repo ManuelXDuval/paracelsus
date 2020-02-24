@@ -1,6 +1,6 @@
 # .travis.yml
 
-language: r
+language: R
 sudo: false
 warnings_are_errors: false
 
