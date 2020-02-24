@@ -1,12 +1,13 @@
-################################################################################
-# Active Pharmaceutical Ingredients data retrieval                             #
-# Authoritative source of data related to therapeutically active molecules     #
-# The source URL is https://www.fda.gov/Drugs/InformationOnDrugs/              #
-################################################################################
+###############################################################################
+# Active Pharmaceutical Ingredients data retrieval                            #
+# Authoritative source of data related to therapeutically active molecules    #
+# The source URL is https://www.fda.gov/Drugs/InformationOnDrugs/             #
+###############################################################################
 # dependencies
-sapply(c("tidyr", "RCurl", "SPARQL", "httr"), library, character.only = TRUE)
+sapply(c("httr", "reshape2", "tidyr", "RCurl", "SPARQL"), library, 
+       character.only = TRUE)
 
-#####~~~~U.S. FDA Orange Book resource active ingredients data retrieval~~~~####
+#####~~~~U.S. FDA Orange Book resource active ingredients data retrieval~~~~###
 # setting the source URL
 url.basename <- "https://www.fda.gov/downloads/Drugs/InformationOnDrugs/"
 # setting a new subdirectory on the local file system where to load the Orange  
@@ -37,7 +38,7 @@ Ingred2 <- unique(c(Ingred1, trimws(CompIngredDf$primIng)))
 # the Ingred2 vector: active ingredients of the Orange Book prescription drugs
 
 ##########~~~~~~~~~~##########~~~~~~~~~~##########~~~~~~~~~~##########~~~~~~~~~~
-########~~~~U.S. NIH PubChem resource query and result set retrieval~~~~########
+########~~~~U.S. NIH PubChem resource query and result set retrieval~~~~#######
 # setting url string values for issuing queries via the PubChem PUG REST API 
 prolog <- "https://pubchem.ncbi.nlm.nih.gov/rest/pug"
 input <- "/compound/name/"
@@ -60,11 +61,18 @@ paracelsusDf <- as.data.frame(
 colnames(paracelsusDf) <- c("Ingredient", "CID")
 # filtering out entries with no match to PubChem compound DB
 paracelsusDf <- paracelsusDf[!(grepl("NotFound;", paracelsusDf$CID)),]
-# the paracelsusDf dataframe: a 1,123 records by 2 attributes: Ingredient Name 
+# the paracelsusDf dataframe: a 1,150 records by 2 attributes: Ingredient Name 
 # and PubChem compound CID. 
-################################################################################
+###############################################################################
 
-########~~~~U.S. NIH NLM Medical Subject Heading MeSH resource query and result set retrieval~~~~########
+########~~~~curating the list of ingredients~~~################################
+# filtering out water
+paracelsusDf <- paracelsusDf[(paracelsusDf$CID != 962),]
+
+
+
+
+##~~NIH NLM Medical Subject Heading resource query and result set retrieval~~##
 # setting url string values for issuing queries to the MeSH API
 host <- "id.nlm.nih.gov/mesh"
 endpoint <- "/lookup/descriptor"
@@ -80,5 +88,6 @@ meshSet.df$label <- toupper(meshSet.df$label)
 paracelsusDf.mesh <- merge(paracelsusDf, meshSet.df[,c(2,3)], by.x = "Ingredient", by.y = "label")
 
 ###################################################################################
+
 
 
