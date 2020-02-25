@@ -4,7 +4,7 @@
 # The source URL is https://www.fda.gov/Drugs/InformationOnDrugs/             #
 ###############################################################################
 # dependencies
-sapply(c("httr", "reshape2", "stringr", "tidyr", "RCurl", "SPARQL"), library, 
+sapply(c("httr", "RCurl", "reshape2", "SPARQL", "stringr", "tidyr"), library, 
        character.only = TRUE)
 
 #####~~~~U.S. FDA Orange Book resource active ingredients data retrieval~~~~###
@@ -66,9 +66,12 @@ paracelsusDf <- paracelsusDf[!(grepl("NotFound;", paracelsusDf$CID)),]
 ###############################################################################
 
 ########~~~~curating the list of ingredients~~~################################
-# filtering out water
+# selecting out water
 paracelsusDf <- paracelsusDf[(paracelsusDf$CID != 962),]
-
+# selecting out imaging agents
+ingredients <- as.character(paracelsusDf$Ingredient)
+tokensPerIngredient <- sapply(1:length(ingredients), function(i) length(str_split(ingredients, " ")[[i]]))
+paracelsusDf <- paracelsusDf[!(paracelsusDf$Ingredient %in% ingredients[which(tokensPerIngredient > 3)]),]
 
 ##~~NIH NLM Medical Subject Heading resource query and result set retrieval~~##
 # setting url string values for issuing queries to the MeSH API
