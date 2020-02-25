@@ -70,8 +70,23 @@ paracelsusDf <- paracelsusDf[!(grepl("NotFound;", paracelsusDf$CID)),]
 paracelsusDf <- paracelsusDf[(paracelsusDf$CID != 962),]
 # selecting out imaging agents
 ingredients <- as.character(paracelsusDf$Ingredient)
-tokensPerIngredient <- sapply(1:length(ingredients), function(i) length(str_split(ingredients, " ")[[i]]))
-paracelsusDf <- paracelsusDf[!(paracelsusDf$Ingredient %in% ingredients[which(tokensPerIngredient > 3)]),]
+tokensPerIngredient <- sapply(1:length(ingredients), 
+                              function(i) 
+                                length(str_split(ingredients, " ")[[i]]))
+paracelsusDf <- paracelsusDf[!(paracelsusDf$Ingredient %in%
+                                 ingredients[which(tokensPerIngredient > 3)]),]
+# data curation: extracting actual API from salt forms
+# select ingredients with a single string character value
+singleTokenIngredient <- ingredients[which(tokensPerIngredient == 1)]
+# select ingredients that are associated with another string
+multiTokenIngredient <- ingredients[which(tokensPerIngredient > 1)]
+# getting ingredients with only one token
+OneTokenIngredient <- setdiff(singleTokenIngredient, 
+                              intersect(singleTokenIngredient, 
+                                        unlist(
+                                          str_split(
+                                            multiTokenIngredient, " "))))
+
 
 ##~~NIH NLM Medical Subject Heading resource query and result set retrieval~~##
 # setting url string values for issuing queries to the MeSH API
