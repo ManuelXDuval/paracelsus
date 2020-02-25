@@ -87,6 +87,20 @@ OneTokenIngredient <- setdiff(singleTokenIngredient,
                                           str_split(
                                             multiTokenIngredient, " "))))
 
+IngredientsWithSalt <- sapply(
+  1:length(
+    setdiff(
+      singleTokenIngredient, OneTokenIngredient)
+    ), 
+  function(i) grep(
+    paste0("^", setdiff(
+      singleTokenIngredient, OneTokenIngredient)[i], "|", setdiff(
+        singleTokenIngredient, OneTokenIngredient)[i], "$"), multiTokenIngredient
+    ))
+
+names(IngredientsWithSalt) <- setdiff(singleTokenIngredient, OneTokenIngredient)
+IngredientsWithSalt <- IngredientsWithSalt[lapply(IngredientsWithSalt, length)>0]
+
 
 ##~~NIH NLM Medical Subject Heading resource query and result set retrieval~~##
 # setting url string values for issuing queries to the MeSH API
