@@ -102,14 +102,23 @@ names(IngredientsWithSalt) <- setdiff(singleTokenIngredient, OneTokenIngredient)
 IngredientsWithSalt <- IngredientsWithSalt[lapply(IngredientsWithSalt, length)>0]
 
 # list of ingredients and ingredients with salt form
-IngredientsWithSalt <- lapply(1:length(IngredientsWithSalt), function(i) cbind(as.data.frame(names(IngredientsWithSalt[i])), as.data.frame(multiTokenIngredient[unlist(IngredientsWithSalt[[i]])])))
+IngredientsWithSalt <- lapply(
+  1:length(IngredientsWithSalt), function(i) cbind(
+    as.data.frame(names(IngredientsWithSalt[i])), 
+    as.data.frame(multiTokenIngredient[unlist(IngredientsWithSalt[[i]])])))
 
-IngredientsWithSalt <- lapply(IngredientsWithSalt, setNames, c("OneTokenIngString", "SaltForm"))
+IngredientsWithSalt <- lapply(IngredientsWithSalt, setNames, c("Ingredient", "SaltForm"))
 IngredientsWithSalt.df <- do.call("rbind", IngredientsWithSalt)
 
 IngredientsWithSalt.df <- IngredientsWithSalt.df %>%
-  group_by(OneTokenIngString) %>%
+  group_by(Ingredient) %>%
   summarise(SaltForms = paste(SaltForm, collapse = ", "))
+
+IngredientsWithSalt.df <- merge(IngredientsWithSalt.df, paracelsusDf, by = "Ingredient")
+
+# dataframe with 503 entries by 3 columns (Ingredient name, CID and salt form when applicable)
+paracelsusDf <- rbind.fill(
+  paracelsusDf[(paracelsusDf$Ingredient %in% OneTokenIngredient),], IngredientsWithSalt.df)
 
 ##~~NIH NLM Medical Subject Heading resource query and result set retrieval~~##
 # setting url string values for issuing queries to the MeSH API
