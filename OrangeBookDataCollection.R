@@ -4,8 +4,8 @@
 # The source URL is https://www.fda.gov/Drugs/InformationOnDrugs/             #
 ###############################################################################
 # dependencies
-sapply(c("dplyr", "httr", "RCurl", "reshape2", "SPARQL", "stringr", "tidyr"), library, 
-       character.only = TRUE)
+sapply(c("dplyr", "httr", "plyr", "RCurl", "reshape2", "SPARQL", "stringr", 
+         "tidyr"), library, character.only = TRUE)
 
 #####~~~~U.S. FDA Orange Book resource active ingredients data retrieval~~~~###
 # setting the source URL
@@ -116,9 +116,11 @@ IngredientsWithSalt.df <- IngredientsWithSalt.df %>%
 
 IngredientsWithSalt.df <- merge(IngredientsWithSalt.df, paracelsusDf, by = "Ingredient")
 
-# dataframe with 503 entries by 3 columns (Ingredient name, CID and salt form when applicable)
+# dataframe with 503 entries by 3 columns (Ingredient name, CID and salt form 
+# when applicable)
 paracelsusDf <- rbind.fill(
   paracelsusDf[(paracelsusDf$Ingredient %in% OneTokenIngredient),], IngredientsWithSalt.df)
+
 
 ##~~NIH NLM Medical Subject Heading resource query and result set retrieval~~##
 # setting url string values for issuing queries to the MeSH API
