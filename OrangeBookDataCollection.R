@@ -101,6 +101,15 @@ IngredientsWithSalt <- sapply(
 names(IngredientsWithSalt) <- setdiff(singleTokenIngredient, OneTokenIngredient)
 IngredientsWithSalt <- IngredientsWithSalt[lapply(IngredientsWithSalt, length)>0]
 
+# list of ingredients and ingredients with salt form
+IngredientsWithSalt <- lapply(1:length(IngredientsWithSalt), function(i) cbind(as.data.frame(names(IngredientsWithSalt[i])), as.data.frame(multiTokenIngredient[unlist(IngredientsWithSalt[[i]])])))
+
+IngredientsWithSalt <- lapply(IngredientsWithSalt, setNames, c("OneTokenIngString", "SaltForm"))
+IngredientsWithSalt.df <- do.call("rbind", IngredientsWithSalt)
+
+IngredientsWithSalt.df <- IngredientsWithSalt.df %>%
+  group_by(OneTokenIngString) %>%
+  summarise(SaltForms = paste(SaltForm, collapse = ", "))
 
 ##~~NIH NLM Medical Subject Heading resource query and result set retrieval~~##
 # setting url string values for issuing queries to the MeSH API
