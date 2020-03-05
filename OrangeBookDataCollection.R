@@ -4,7 +4,7 @@
 # The source URL is https://www.fda.gov/Drugs/InformationOnDrugs/             #
 ###############################################################################
 # dependencies
-sapply(c("httr", "RCurl", "reshape2", "SPARQL", "stringr", "tidyr"), library, 
+sapply(c("dplyr", "httr", "RCurl", "reshape2", "SPARQL", "stringr", "tidyr"), library, 
        character.only = TRUE)
 
 #####~~~~U.S. FDA Orange Book resource active ingredients data retrieval~~~~###
