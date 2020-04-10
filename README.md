@@ -10,4 +10,4 @@ This repository is dedicated to the study of compounds with establised or presum
 
 - step#2: the NIH PubChem Compound DB is queried with the set of Orange Book Ingredient names. Tthe PubChem compound CID attributes is retrieved.  
 
--step#3: curating the current set of ingredients.  
+- step#3: curating the current set of ingredients.  
