@@ -5,11 +5,11 @@
 ###############################################################################
 # dependencies
 sapply(c("dplyr", "httr", "plyr", "RCurl", "reshape2", "SPARQL", "stringr", 
-         "tidyr"), library, character.only = TRUE)
+         "tidyr"), suppressPackageStartupMessages(library), character.only = TRUE)
 
 #####~~~~U.S. FDA Orange Book resource active ingredients data retrieval~~~~###
 # setting the source URL
-url.basename <- "https://www.fda.gov/downloads/Drugs/InformationOnDrugs/"
+  url.basename <- "https://www.fda.gov/downloads/Drugs/InformationOnDrugs/"
 # setting a new subdirectory on the local file system where to load the Orange  
 # Book data files locally.
 if(!file.exists("LocalEOB"))  {  
