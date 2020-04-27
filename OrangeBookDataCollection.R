@@ -9,7 +9,7 @@ sapply(c("dplyr", "httr", "plyr", "RCurl", "reshape2", "SPARQL", "stringr",
 
 #####~~~~U.S. FDA Orange Book resource active ingredients data retrieval~~~~###
 # setting the source URL
-  url.basename <- "https://www.fda.gov/downloads/Drugs/InformationOnDrugs/"
+url.basename <- "https://www.fda.gov/downloads/Drugs/InformationOnDrugs/"
 # setting a new subdirectory on the local file system where to load the Orange  
 # Book data files locally.
 if(!file.exists("LocalEOB"))  {  
@@ -68,15 +68,19 @@ paracelsusDf <- paracelsusDf[!(grepl("NotFound;", paracelsusDf$CID)),]
 ########~~~~curating the list of ingredients~~~################################
 # selecting out water
 paracelsusDf <- paracelsusDf[(paracelsusDf$CID != 962),]
-# selecting out imaging agents
+# instantiating a vector of ingredients
 ingredients <- as.character(paracelsusDf$Ingredient)
+# instantiating a vector of number of tokens per ingredient
 tokensPerIngredient <- sapply(1:length(ingredients), 
                               function(i) 
                                 length(str_split(ingredients, " ")[[i]]))
+
+# selecting out contrast agents (ingredients with more than 3 tokens)
 paracelsusDf <- paracelsusDf[!(paracelsusDf$Ingredient %in%
                                  ingredients[which(tokensPerIngredient > 3)]),]
-# data curation: extracting actual API from salt forms
-# select ingredients with a single string character value
+
+# extracting actual API string value from the salt forms
+# 1st, selecting ingredients with a single string character value
 singleTokenIngredient <- ingredients[which(tokensPerIngredient == 1)]
 # select ingredients that are associated with another string
 multiTokenIngredient <- ingredients[which(tokensPerIngredient > 1)]
@@ -112,11 +116,11 @@ IngredientsWithSalt.df <- do.call("rbind", IngredientsWithSalt)
 
 IngredientsWithSalt.df <- IngredientsWithSalt.df %>%
   group_by(Ingredient) %>%
-  summarise(SaltForms = paste(SaltForm, collapse = ", "))
+ dplyr::summarise(SaltForms = paste(SaltForm, collapse = ", "))
 
 IngredientsWithSalt.df <- merge(IngredientsWithSalt.df, paracelsusDf, by = "Ingredient")
 
-# dataframe with 503 entries by 3 columns (Ingredient name, CID and salt form 
+# dataframe with 506 entries by 3 columns (Ingredient name, CID and salt form 
 # when applicable)
 paracelsusDf <- rbind.fill(
   paracelsusDf[(paracelsusDf$Ingredient %in% OneTokenIngredient),], IngredientsWithSalt.df)
@@ -140,4 +144,4 @@ paracelsusDf.mesh <- merge(paracelsusDf, meshSet.df[,c(2,3)], by.x = "Ingredient
 ###################################################################################
 
 
-
+tmp <- readRDS("~/miscBu/ParacelsusForge/paracelsusDf.rds")
