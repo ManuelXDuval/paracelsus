@@ -126,6 +126,8 @@ paracelsusDf <- rbind.fill(
   paracelsusDf[(paracelsusDf$Ingredient %in% OneTokenIngredient),], IngredientsWithSalt.df)
 
 
+
+
 ##~~NIH NLM Medical Subject Heading resource query and result set retrieval~~##
 # setting url string values for issuing queries to the MeSH API
 host <- "id.nlm.nih.gov/mesh"
@@ -143,5 +145,3 @@ paracelsusDf.mesh <- merge(paracelsusDf, meshSet.df[,c(2,3)], by.x = "Ingredient
 
 ###################################################################################
 
-
-tmp <- readRDS("~/miscBu/ParacelsusForge/paracelsusDf.rds")
