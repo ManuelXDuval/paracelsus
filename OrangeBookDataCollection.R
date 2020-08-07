@@ -57,11 +57,12 @@ QueryPubChem4CID <- function(x){
 }
 # issuing the https get requests
 paracelsusDf <- as.data.frame(
-  cbind(Ingred2, sapply(Ingred2, DelayFunction(.5, QueryPubChem4CID))))
+  cbind(Ingred2, sapply(Ingred2, DelayFunction(.6, QueryPubChem4CID))))
 colnames(paracelsusDf) <- c("Ingredient", "CID")
+
 # filtering out entries with no match to PubChem compound DB
 paracelsusDf <- paracelsusDf[!(grepl("NotFound;", paracelsusDf$CID)),]
-# the paracelsusDf dataframe: a 1,150 records by 2 attributes: Ingredient Name 
+# the paracelsusDf dataframe: a 1,180 records by 2 attributes: Ingredient Name 
 # and PubChem compound CID. 
 ###############################################################################
 
