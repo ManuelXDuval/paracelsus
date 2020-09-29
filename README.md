@@ -8,6 +8,6 @@ This repository is dedicated to the study of compounds with establised or presum
 
 - step#1: the OrangeBookDataCollection.R script loads the US FDA Orange Book Products table and returns a set (vector) of non-redundant ingredients.  When invoked, the script downloads ~6MB amount of data to the local storage.
 
-- step#2: the NIH PubChem Compound DB is queried with the set of Orange Book Ingredient names. Tthe PubChem compound CID attributes is retrieved.  
+- step#2: the NIH PubChem Compound DB is queried with the set of Orange Book Ingredient names. The PubChem compound CID attributes is retrieved.  
 
 - step#3: curating the current set of ingredients.  
