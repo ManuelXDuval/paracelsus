@@ -1,6 +1,6 @@
 ## Programmatic access and formatting of U.S Food And Drug Administration (FDA) Orange Book data
 ### The FDA provides public access to the list of approved drug products (i.e. the Orange Book).
-https://www.fda.gov/Drugs/InformationOnDrugs/    
+[FDA Information on Drugs](https://www.fda.gov/Drugs/InformationOnDrugs/).     
 For some reasons, that list can be retrieved from two distinct resources: 
 https://www.fda.gov/downloads/Drugs/InformationOnDrugs/UCM163762.zip
 and
