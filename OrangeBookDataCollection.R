@@ -4,8 +4,8 @@
 # The source URL is https://www.fda.gov/Drugs/InformationOnDrugs/             #
 ###############################################################################
 # dependencies
-sapply(c("dplyr", "httr", "plyr", "RCurl", "reshape2", "SPARQL", "stringr", 
-         "tidyr"), suppressPackageStartupMessages(library), character.only = TRUE)
+sapply(c("httr", "RCurl", "reshape2", "tidyverse"), 
+       suppressPackageStartupMessages(library), character.only = TRUE)
 
 #####~~~~U.S. FDA Orange Book resource active ingredients data retrieval~~~~###
 # setting the source URL
