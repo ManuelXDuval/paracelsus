@@ -1,0 +1,11 @@
+{
+  "name": ["paracelsus"],
+  "version": ["0.1.0"],
+  "description": ["In silico medicinal chemistry."],
+  "dependencies": {
+    "httr": ["1.4.7"],
+    "RCurl": ["1.98-1.16"],
+    "reshape2": ["1.4.4"],
+    "dplyr": ["1.1.4"]
+  }
+}
