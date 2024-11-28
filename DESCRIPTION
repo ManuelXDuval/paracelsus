@@ -2,7 +2,7 @@ Package: paracelsus
 Title: paracelsus
 Version: 0.1.0
 Authors@R: person("Manuel X. Duval", role = c("aut", "cre"))
-Description: In silico medicinal chemistry..
+Description: In silico medicinal chemistry.
 Depends: R (>= 4.2)
 Imports: httr, RCurl, reshape2, tidyverse
 
